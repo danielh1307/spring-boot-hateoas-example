@@ -7,14 +7,18 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@RequestMapping("/greeting")
 public class GreetingController {
 
-    @RequestMapping("/greeting/{name}")
+    @GetMapping("/{name}")
     public HttpEntity<Greeting> greeting(@PathVariable String name) {
         Greeting greeting = new Greeting(String.format("Hello, %s", name));
 
@@ -25,7 +29,7 @@ public class GreetingController {
         return new ResponseEntity<>(greeting, OK);
     }
 
-    @GetMapping(value = "/greetingInfoMessage/{name}", produces = {"application/json", "application/hal+json"})
+    @GetMapping(value = "/infoMessage/{name}", produces = {"application/json", "application/hal+json"})
     public Resource<InfoMessageResponse<Greeting>> greetingInfoMessageResponse(@PathVariable String name) {
         Greeting greeting = new Greeting(String.format("Hello, %s", name));
 
