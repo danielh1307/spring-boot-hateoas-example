@@ -27,6 +27,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -43,5 +53,39 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>generateModel</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.swagger</groupId>
+						<artifactId>swagger-codegen-maven-plugin</artifactId>
+						<version>2.3.1</version>
+						<executions>
+							<execution>
+								<id>generate-swagger-spring</id>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<generateApis>false</generateApis>
+									<inputSpec>http://localhost:8080/context/v2/api-docs</inputSpec>
+									<!--<inputSpec>${project.basedir}/api-docs.json</inputSpec>-->
+									<output>${basedir}</output>
+									<language>spring</language>
+									<generateSupportingFiles>false</generateSupportingFiles>
+									<configOptions>
+										<dateLibrary>java8</dateLibrary>
+									</configOptions>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
