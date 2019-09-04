@@ -2,6 +2,7 @@ package danielh1307.springboothateoasexample.ctrl;
 
 import danielh1307.springboothateoasexample.domain.Greeting;
 import danielh1307.springboothateoasexample.domain.InfoMessageResponse;
+import danielh1307.springboothateoasexample.domain.PlainGreeting;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -27,6 +28,27 @@ public class GreetingController {
         greeting.add(greetingLink);
 
         return new ResponseEntity<>(greeting, OK);
+    }
+
+    /**
+     * Delivers exactly same structure as /infoMessage/{name}, but the difference is: PlainGreeting does not inherit from ResourceSupport
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping(value = "/plain/{name}", produces = {"application/json", "application/hal+json"})
+    public Resource<InfoMessageResponse<Resource<PlainGreeting>>> plainGreeting(@PathVariable String name) {
+        PlainGreeting plainGreeting = new PlainGreeting(String.format("Hello, %s", name));
+
+        Resource<PlainGreeting> plainGreetingResource = new Resource<>(plainGreeting);
+
+        Resource<InfoMessageResponse<Resource<PlainGreeting>>> plainGreetingMethod = ControllerLinkBuilder.methodOn(GreetingController.class).plainGreeting(name);
+        Link plainGreetingLink = ControllerLinkBuilder.linkTo(plainGreetingMethod).withSelfRel();
+        plainGreetingResource.add(plainGreetingLink);
+
+        InfoMessageResponse<Resource<PlainGreeting>> infoMessageResponse = new InfoMessageResponse<>(plainGreetingResource);
+
+        return new Resource<>(infoMessageResponse);
     }
 
     @GetMapping(value = "/infoMessage/{name}", produces = {"application/json", "application/hal+json"})
