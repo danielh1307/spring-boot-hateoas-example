@@ -30,9 +30,9 @@ public class SpringFoxConfig {
         TypeResolver typeResolver = new TypeResolver();
 
         // List<Link> wird zu Map<String, Link>
-        AlternateTypeRule alternateTypeRule = AlternateTypeRules.newRule(
-                typeResolver.resolve(List.class, typeResolver.resolve(Link.class)),
-                typeResolver.resolve(Map.class, typeResolver.resolve(String.class), typeResolver.resolve(Link.class)));
+//        AlternateTypeRule alternateTypeRule = AlternateTypeRules.newRule(
+//                typeResolver.resolve(List.class, typeResolver.resolve(Link.class)),
+//                typeResolver.resolve(Map.class, typeResolver.resolve(String.class), typeResolver.resolve(Link.class)));
 
         // TODO: müsste man nicht aus Link noch rel entfernen? Kann aber vielleicht drinbleiben, weil er einfach nicht zurückgegeben wird.
 
@@ -41,8 +41,8 @@ public class SpringFoxConfig {
                 .apis(RequestHandlerSelectors.any()) // here we could narrow down the packages
                 .paths(ant("/greeting/**")) // here we can narrow down the path
                 .build()
-                .apiInfo(getApiInfo())
-                .alternateTypeRules(alternateTypeRule);
+                .apiInfo(getApiInfo());
+//                .alternateTypeRules(alternateTypeRule);
     }
 
     private ApiInfo getApiInfo() {

@@ -1,0 +1,5 @@
+Ganz normaler Standard:
+Formatierung ist automatisch Hal-Style vom Service
+Auch ein Accept: application/json ändert daran nichts
+
+Problem im Swagger: er generiert zwar _links (Hal-style), aber dann darunter dann ein Array
